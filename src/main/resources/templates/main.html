@@ -6,5 +6,46 @@
 </head>
 <body>
 
+    <div style="border-width:1px;border-color:#888;border-style:solid">
+        <h2>File Upload</h2>
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+
+    <!-- JavaScript로 업로드 결과를 처리하는 코드 -->
+    <script>
+        // 업로드 폼
+        var uploadForm = document.getElementById('uploadForm');
+
+        // 업로드 폼 제출 시 동작
+        uploadForm.addEventListener('submit', function (event) {
+            // Ajax를 사용하여 업로드 처리
+            event.preventDefault();
+            var formData = new FormData(uploadForm);
+
+            fetch(uploadForm.action, {
+                method: uploadForm.method,
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 성공적으로 응답이 왔을 때
+                        return response.text();
+                    } else {
+                        // 응답이 오류 상태일 때
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    alert(data);
+                })
+                .catch(error => {
+                    alert(error);
+                });
+        });
+        /*]]>*/
+    </script>
 </body>
 </html>
